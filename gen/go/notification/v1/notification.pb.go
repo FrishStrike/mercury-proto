@@ -7,6 +7,7 @@
 package v1
 
 import (
+	v1 "github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -612,7 +613,7 @@ type GetUserNotificationsResponse struct {
 	// Список уведомлений
 	Notifications []*Notification `protobuf:"bytes,1,rep,name=notifications,proto3" json:"notifications,omitempty"`
 	// Информация о пагинации
-	Pagination    *Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Pagination    *v1.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -654,7 +655,7 @@ func (x *GetUserNotificationsResponse) GetNotifications() []*Notification {
 	return nil
 }
 
-func (x *GetUserNotificationsResponse) GetPagination() *Pagination {
+func (x *GetUserNotificationsResponse) GetPagination() *v1.Pagination {
 	if x != nil {
 		return x.Pagination
 	}
@@ -930,8 +931,8 @@ var file_notification_v1_notification_proto_goTypes = []any{
 	(*GetUserNotificationsResponse)(nil), // 8: notification.v1.GetUserNotificationsResponse
 	(*MarkAsReadRequest)(nil),            // 9: notification.v1.MarkAsReadRequest
 	(*Notification)(nil),                 // 10: notification.v1.Notification
-	(*Pagination)(nil),                   // 11: common.v1.Pagination
-	(*Empty)(nil),                        // 12: common.v1.Empty
+	(*v1.Pagination)(nil),                // 11: common.v1.Pagination
+	(*v1.Empty)(nil),                     // 12: common.v1.Empty
 }
 var file_notification_v1_notification_proto_depIdxs = []int32{
 	0,  // 0: notification.v1.SendEmailRequest.type:type_name -> notification.v1.NotificationType
@@ -962,7 +963,6 @@ func file_notification_v1_notification_proto_init() {
 	if File_notification_v1_notification_proto != nil {
 		return
 	}
-	file_common_v1_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

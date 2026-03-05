@@ -22,7 +22,7 @@ lint:
 
 clean:
 	@echo "Cleaning generated files..."
-	rm -rf gen/
+	rmdir -R gen/
 	@echo "Clean complete!"
 
 # Установка buf (если нет)

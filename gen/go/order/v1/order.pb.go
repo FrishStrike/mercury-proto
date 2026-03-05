@@ -7,6 +7,7 @@
 package v1
 
 import (
+	v1 "github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -100,7 +101,7 @@ type ListOrdersResponse struct {
 	// Список заказов
 	Orders []*Order `protobuf:"bytes,1,rep,name=orders,proto3" json:"orders,omitempty"`
 	// Информация о пагинации
-	Pagination    *Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Pagination    *v1.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -142,7 +143,7 @@ func (x *ListOrdersResponse) GetOrders() []*Order {
 	return nil
 }
 
-func (x *ListOrdersResponse) GetPagination() *Pagination {
+func (x *ListOrdersResponse) GetPagination() *v1.Pagination {
 	if x != nil {
 		return x.Pagination
 	}
@@ -917,7 +918,7 @@ var file_order_v1_order_proto_goTypes = []any{
 	(*Order)(nil),                     // 10: order.v1.Order
 	(*OrderItem)(nil),                 // 11: order.v1.OrderItem
 	(*OrderItemInput)(nil),            // 12: order.v1.OrderItemInput
-	(*Pagination)(nil),                // 13: common.v1.Pagination
+	(*v1.Pagination)(nil),             // 13: common.v1.Pagination
 }
 var file_order_v1_order_proto_depIdxs = []int32{
 	10, // 0: order.v1.ListOrdersResponse.orders:type_name -> order.v1.Order
@@ -950,7 +951,6 @@ func file_order_v1_order_proto_init() {
 	if File_order_v1_order_proto != nil {
 		return
 	}
-	file_common_v1_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

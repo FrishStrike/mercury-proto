@@ -5,11 +5,15 @@ plugins:
     out: gen/go
     opt:
       - paths=source_relative
+      # Маппинг proto импортов → Go пакеты
+      - Mcommon/v1/common.proto=github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1
   - plugin: go-grpc
     out: gen/go
     opt:
       - paths=source_relative
       - require_unimplemented_servers=false
+      # Тот же маппинг для gRPC плагина
+      - Mcommon/v1/common.proto=github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1
   # OpenAPI документация (для REST Gateway)
   - plugin: openapiv2
     out: gen/openapi
