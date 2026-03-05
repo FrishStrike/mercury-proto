@@ -7,7 +7,7 @@
 package v1
 
 import (
-	v1 "github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1"
+	v1 "github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -903,7 +903,7 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"\aSendSMS\x12\x1f.notification.v1.SendSMSRequest\x1a .notification.v1.SendSMSResponse\x12s\n" +
 	"\x14GetUserNotifications\x12,.notification.v1.GetUserNotificationsRequest\x1a-.notification.v1.GetUserNotificationsResponse\x12B\n" +
 	"\n" +
-	"MarkAsRead\x12\".notification.v1.MarkAsReadRequest\x1a\x10.common.v1.EmptyBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
+	"MarkAsRead\x12\".notification.v1.MarkAsReadRequest\x1a\x10.common.v1.EmptyBDZBgithub.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_notification_v1_notification_proto_rawDescOnce sync.Once

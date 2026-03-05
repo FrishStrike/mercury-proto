@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package order.v1;
 
-option go_package = "github.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1";
+option go_package = "github.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1";
 
 import "common/v1/common.proto";
 

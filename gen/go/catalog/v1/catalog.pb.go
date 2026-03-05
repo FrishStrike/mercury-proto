@@ -7,7 +7,7 @@
 package v1
 
 import (
-	v1 "github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1"
+	v1 "github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -741,7 +741,7 @@ const file_catalog_v1_catalog_proto_rawDesc = "" +
 	"GetProduct\x12\x1d.catalog.v1.GetProductRequest\x1a\x1e.catalog.v1.GetProductResponse\x12T\n" +
 	"\rCreateProduct\x12 .catalog.v1.CreateProductRequest\x1a!.catalog.v1.CreateProductResponse\x12T\n" +
 	"\rUpdateProduct\x12 .catalog.v1.UpdateProductRequest\x1a!.catalog.v1.UpdateProductResponse\x12C\n" +
-	"\rDeleteProduct\x12 .catalog.v1.DeleteProductRequest\x1a\x10.common.v1.EmptyBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
+	"\rDeleteProduct\x12 .catalog.v1.DeleteProductRequest\x1a\x10.common.v1.EmptyBDZBgithub.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_catalog_v1_catalog_proto_rawDescOnce sync.Once

@@ -204,7 +204,7 @@ const file_common_v1_common_proto_rawDesc = "" +
 	"\fDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\a\n" +
-	"\x05EmptyBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
+	"\x05EmptyBDZBgithub.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_common_v1_common_proto_rawDescOnce sync.Once

@@ -7,7 +7,7 @@
 package v1
 
 import (
-	v1 "github.com/FrishStrike/mercury-backend/api/proto/gen/go/common/v1"
+	v1 "github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -866,7 +866,7 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\rCreatePayment\x12 .payment.v1.CreatePaymentRequest\x1a!.payment.v1.CreatePaymentResponse\x12W\n" +
 	"\x0eConfirmPayment\x12!.payment.v1.ConfirmPaymentRequest\x1a\".payment.v1.ConfirmPaymentResponse\x12T\n" +
 	"\rCancelPayment\x12 .payment.v1.CancelPaymentRequest\x1a!.payment.v1.CancelPaymentResponse\x12T\n" +
-	"\rRefundPayment\x12 .payment.v1.RefundPaymentRequest\x1a!.payment.v1.RefundPaymentResponseBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
+	"\rRefundPayment\x12 .payment.v1.RefundPaymentRequest\x1a!.payment.v1.RefundPaymentResponseBDZBgithub.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_payment_v1_payment_proto_rawDescOnce sync.Once
