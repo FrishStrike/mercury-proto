@@ -7,7 +7,6 @@
 package v1
 
 import (
-	v1 "github.com/FrishStrike/mercury-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -101,7 +100,7 @@ type ListPaymentsResponse struct {
 	// Список платежей
 	Payments []*Payment `protobuf:"bytes,1,rep,name=payments,proto3" json:"payments,omitempty"`
 	// Информация о пагинации
-	Pagination    *v1.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Pagination    *Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -143,7 +142,7 @@ func (x *ListPaymentsResponse) GetPayments() []*Payment {
 	return nil
 }
 
-func (x *ListPaymentsResponse) GetPagination() *v1.Pagination {
+func (x *ListPaymentsResponse) GetPagination() *Pagination {
 	if x != nil {
 		return x.Pagination
 	}
@@ -866,7 +865,7 @@ const file_payment_v1_payment_proto_rawDesc = "" +
 	"\rCreatePayment\x12 .payment.v1.CreatePaymentRequest\x1a!.payment.v1.CreatePaymentResponse\x12W\n" +
 	"\x0eConfirmPayment\x12!.payment.v1.ConfirmPaymentRequest\x1a\".payment.v1.ConfirmPaymentResponse\x12T\n" +
 	"\rCancelPayment\x12 .payment.v1.CancelPaymentRequest\x1a!.payment.v1.CancelPaymentResponse\x12T\n" +
-	"\rRefundPayment\x12 .payment.v1.RefundPaymentRequest\x1a!.payment.v1.RefundPaymentResponseB8Z6github.com/FrishStrike/mercury-proto/gen/go/payment/v1b\x06proto3"
+	"\rRefundPayment\x12 .payment.v1.RefundPaymentRequest\x1a!.payment.v1.RefundPaymentResponseBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_payment_v1_payment_proto_rawDescOnce sync.Once
@@ -895,7 +894,7 @@ var file_payment_v1_payment_proto_goTypes = []any{
 	(*RefundPaymentRequest)(nil),   // 10: payment.v1.RefundPaymentRequest
 	(*RefundPaymentResponse)(nil),  // 11: payment.v1.RefundPaymentResponse
 	(*Payment)(nil),                // 12: payment.v1.Payment
-	(*v1.Pagination)(nil),          // 13: common.v1.Pagination
+	(*Pagination)(nil),             // 13: common.v1.Pagination
 }
 var file_payment_v1_payment_proto_depIdxs = []int32{
 	12, // 0: payment.v1.ListPaymentsResponse.payments:type_name -> payment.v1.Payment
@@ -929,6 +928,7 @@ func file_payment_v1_payment_proto_init() {
 	if File_payment_v1_payment_proto != nil {
 		return
 	}
+	file_common_v1_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

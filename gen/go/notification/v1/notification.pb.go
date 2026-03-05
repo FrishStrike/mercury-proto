@@ -7,7 +7,6 @@
 package v1
 
 import (
-	v1 "github.com/FrishStrike/mercury-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -613,7 +612,7 @@ type GetUserNotificationsResponse struct {
 	// Список уведомлений
 	Notifications []*Notification `protobuf:"bytes,1,rep,name=notifications,proto3" json:"notifications,omitempty"`
 	// Информация о пагинации
-	Pagination    *v1.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Pagination    *Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -655,7 +654,7 @@ func (x *GetUserNotificationsResponse) GetNotifications() []*Notification {
 	return nil
 }
 
-func (x *GetUserNotificationsResponse) GetPagination() *v1.Pagination {
+func (x *GetUserNotificationsResponse) GetPagination() *Pagination {
 	if x != nil {
 		return x.Pagination
 	}
@@ -903,7 +902,7 @@ const file_notification_v1_notification_proto_rawDesc = "" +
 	"\aSendSMS\x12\x1f.notification.v1.SendSMSRequest\x1a .notification.v1.SendSMSResponse\x12s\n" +
 	"\x14GetUserNotifications\x12,.notification.v1.GetUserNotificationsRequest\x1a-.notification.v1.GetUserNotificationsResponse\x12B\n" +
 	"\n" +
-	"MarkAsRead\x12\".notification.v1.MarkAsReadRequest\x1a\x10.common.v1.EmptyB=Z;github.com/FrishStrike/mercury-proto/gen/go/notification/v1b\x06proto3"
+	"MarkAsRead\x12\".notification.v1.MarkAsReadRequest\x1a\x10.common.v1.EmptyBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_notification_v1_notification_proto_rawDescOnce sync.Once
@@ -931,8 +930,8 @@ var file_notification_v1_notification_proto_goTypes = []any{
 	(*GetUserNotificationsResponse)(nil), // 8: notification.v1.GetUserNotificationsResponse
 	(*MarkAsReadRequest)(nil),            // 9: notification.v1.MarkAsReadRequest
 	(*Notification)(nil),                 // 10: notification.v1.Notification
-	(*v1.Pagination)(nil),                // 11: common.v1.Pagination
-	(*v1.Empty)(nil),                     // 12: common.v1.Empty
+	(*Pagination)(nil),                   // 11: common.v1.Pagination
+	(*Empty)(nil),                        // 12: common.v1.Empty
 }
 var file_notification_v1_notification_proto_depIdxs = []int32{
 	0,  // 0: notification.v1.SendEmailRequest.type:type_name -> notification.v1.NotificationType
@@ -963,6 +962,7 @@ func file_notification_v1_notification_proto_init() {
 	if File_notification_v1_notification_proto != nil {
 		return
 	}
+	file_common_v1_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

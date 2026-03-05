@@ -7,7 +7,6 @@
 package v1
 
 import (
-	v1 "github.com/FrishStrike/mercury-proto/gen/go/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -101,7 +100,7 @@ type ListOrdersResponse struct {
 	// Список заказов
 	Orders []*Order `protobuf:"bytes,1,rep,name=orders,proto3" json:"orders,omitempty"`
 	// Информация о пагинации
-	Pagination    *v1.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Pagination    *Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -143,7 +142,7 @@ func (x *ListOrdersResponse) GetOrders() []*Order {
 	return nil
 }
 
-func (x *ListOrdersResponse) GetPagination() *v1.Pagination {
+func (x *ListOrdersResponse) GetPagination() *Pagination {
 	if x != nil {
 		return x.Pagination
 	}
@@ -889,7 +888,7 @@ const file_order_v1_order_proto_rawDesc = "" +
 	"\bGetOrder\x12\x19.order.v1.GetOrderRequest\x1a\x1a.order.v1.GetOrderResponse\x12J\n" +
 	"\vCreateOrder\x12\x1c.order.v1.CreateOrderRequest\x1a\x1d.order.v1.CreateOrderResponse\x12\\\n" +
 	"\x11UpdateOrderStatus\x12\".order.v1.UpdateOrderStatusRequest\x1a#.order.v1.UpdateOrderStatusResponse\x12J\n" +
-	"\vCancelOrder\x12\x1c.order.v1.CancelOrderRequest\x1a\x1d.order.v1.CancelOrderResponseB6Z4github.com/FrishStrike/mercury-proto/gen/go/order/v1b\x06proto3"
+	"\vCancelOrder\x12\x1c.order.v1.CancelOrderRequest\x1a\x1d.order.v1.CancelOrderResponseBDZBgithub.com/FrishStrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_order_v1_order_proto_rawDescOnce sync.Once
@@ -918,7 +917,7 @@ var file_order_v1_order_proto_goTypes = []any{
 	(*Order)(nil),                     // 10: order.v1.Order
 	(*OrderItem)(nil),                 // 11: order.v1.OrderItem
 	(*OrderItemInput)(nil),            // 12: order.v1.OrderItemInput
-	(*v1.Pagination)(nil),             // 13: common.v1.Pagination
+	(*Pagination)(nil),                // 13: common.v1.Pagination
 }
 var file_order_v1_order_proto_depIdxs = []int32{
 	10, // 0: order.v1.ListOrdersResponse.orders:type_name -> order.v1.Order
@@ -951,6 +950,7 @@ func file_order_v1_order_proto_init() {
 	if File_order_v1_order_proto != nil {
 		return
 	}
+	file_common_v1_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

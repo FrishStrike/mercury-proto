@@ -8,7 +8,6 @@ package v1
 
 import (
 	context "context"
-	v1 "github.com/FrishStrike/mercury-proto/gen/go/common/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -44,7 +43,7 @@ type NotificationServiceClient interface {
 	// Получить историю уведомлений пользователя
 	GetUserNotifications(ctx context.Context, in *GetUserNotificationsRequest, opts ...grpc.CallOption) (*GetUserNotificationsResponse, error)
 	// Отметить уведомление как прочитанное
-	MarkAsRead(ctx context.Context, in *MarkAsReadRequest, opts ...grpc.CallOption) (*v1.Empty, error)
+	MarkAsRead(ctx context.Context, in *MarkAsReadRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type notificationServiceClient struct {
@@ -95,9 +94,9 @@ func (c *notificationServiceClient) GetUserNotifications(ctx context.Context, in
 	return out, nil
 }
 
-func (c *notificationServiceClient) MarkAsRead(ctx context.Context, in *MarkAsReadRequest, opts ...grpc.CallOption) (*v1.Empty, error) {
+func (c *notificationServiceClient) MarkAsRead(ctx context.Context, in *MarkAsReadRequest, opts ...grpc.CallOption) (*Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v1.Empty)
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, NotificationService_MarkAsRead_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -122,7 +121,7 @@ type NotificationServiceServer interface {
 	// Получить историю уведомлений пользователя
 	GetUserNotifications(context.Context, *GetUserNotificationsRequest) (*GetUserNotificationsResponse, error)
 	// Отметить уведомление как прочитанное
-	MarkAsRead(context.Context, *MarkAsReadRequest) (*v1.Empty, error)
+	MarkAsRead(context.Context, *MarkAsReadRequest) (*Empty, error)
 }
 
 // UnimplementedNotificationServiceServer should be embedded to have
@@ -144,7 +143,7 @@ func (UnimplementedNotificationServiceServer) SendSMS(context.Context, *SendSMSR
 func (UnimplementedNotificationServiceServer) GetUserNotifications(context.Context, *GetUserNotificationsRequest) (*GetUserNotificationsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserNotifications not implemented")
 }
-func (UnimplementedNotificationServiceServer) MarkAsRead(context.Context, *MarkAsReadRequest) (*v1.Empty, error) {
+func (UnimplementedNotificationServiceServer) MarkAsRead(context.Context, *MarkAsReadRequest) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method MarkAsRead not implemented")
 }
 func (UnimplementedNotificationServiceServer) testEmbeddedByValue() {}

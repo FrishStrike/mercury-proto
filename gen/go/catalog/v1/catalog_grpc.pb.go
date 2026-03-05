@@ -8,7 +8,6 @@ package v1
 
 import (
 	context "context"
-	v1 "github.com/FrishStrike/mercury-proto/gen/go/common/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -44,7 +43,7 @@ type CatalogServiceClient interface {
 	// Обновить товар
 	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
 	// Удалить товар
-	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*v1.Empty, error)
+	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type catalogServiceClient struct {
@@ -95,9 +94,9 @@ func (c *catalogServiceClient) UpdateProduct(ctx context.Context, in *UpdateProd
 	return out, nil
 }
 
-func (c *catalogServiceClient) DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*v1.Empty, error) {
+func (c *catalogServiceClient) DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v1.Empty)
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, CatalogService_DeleteProduct_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -122,7 +121,7 @@ type CatalogServiceServer interface {
 	// Обновить товар
 	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
 	// Удалить товар
-	DeleteProduct(context.Context, *DeleteProductRequest) (*v1.Empty, error)
+	DeleteProduct(context.Context, *DeleteProductRequest) (*Empty, error)
 }
 
 // UnimplementedCatalogServiceServer should be embedded to have
@@ -144,7 +143,7 @@ func (UnimplementedCatalogServiceServer) CreateProduct(context.Context, *CreateP
 func (UnimplementedCatalogServiceServer) UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateProduct not implemented")
 }
-func (UnimplementedCatalogServiceServer) DeleteProduct(context.Context, *DeleteProductRequest) (*v1.Empty, error) {
+func (UnimplementedCatalogServiceServer) DeleteProduct(context.Context, *DeleteProductRequest) (*Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteProduct not implemented")
 }
 func (UnimplementedCatalogServiceServer) testEmbeddedByValue() {}
