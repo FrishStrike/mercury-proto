@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package payment.v1;
+
+option go_package = "github.com/FrishStrike/mercury-proto/gen/go/payment/v1";
+
+import "common/v1/common.proto";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сервис Payment
+// ─────────────────────────────────────────────────────────────────────────────
+service PaymentService {
+  // Получить список платежей
+  rpc ListPayments(ListPaymentsRequest) returns (ListPaymentsResponse);
+  // Получить платёж по ID
+  rpc GetPayment(GetPaymentRequest) returns (GetPaymentResponse);
+  // Создать новый платёж
+  rpc CreatePayment(CreatePaymentRequest) returns (CreatePaymentResponse);
+  // Подтвердить платёж
+  rpc ConfirmPayment(ConfirmPaymentRequest) returns (ConfirmPaymentResponse);
+  // Отменить платёж
+  rpc CancelPayment(CancelPaymentRequest) returns (CancelPaymentResponse);
+  // Вернуть средства (refund)
+  rpc RefundPayment(RefundPaymentRequest) returns (RefundPaymentResponse);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сообщения
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Запрос списка платежей
+message ListPaymentsRequest {
+  // Номер страницы
+  int32 page = 1;
+  // Размер страницы
+  int32 page_size = 2;
+  // ID заказа (фильтр)
+  string order_id = 3;
+  // Статус платежа (фильтр)
+  string status = 4;
+}
+
+// Ответ списка платежей
+message ListPaymentsResponse {
+  // Список платежей
+  repeated Payment payments = 1;
+  // Информация о пагинации
+  common.v1.Pagination pagination = 2;
+}
+
+// Запрос платежа по ID
+message GetPaymentRequest {
+  // UUID платежа
+  string id = 1;
+}
+
+// Ответ с платежом
+message GetPaymentResponse {
+  // Платёж
+  Payment payment = 1;
+}
+
+// Запрос создания платежа
+message CreatePaymentRequest {
+  // ID заказа
+  string order_id = 1;
+  // Сумма в копейках
+  int64 amount = 2;
+  // Способ оплаты
+  string payment_method = 3;
+  // Ключ идемпотентности
+  string idempotency_key = 4;
+}
+
+// Ответ созданного платежа
+message CreatePaymentResponse {
+  // Платёж
+  Payment payment = 1;
+}
+
+// Запрос подтверждения платежа
+message ConfirmPaymentRequest {
+  // UUID платежа
+  string id = 1;
+  // ID транзакции от платёжного шлюза
+  string transaction_id = 2;
+}
+
+// Ответ подтверждённого платежа
+message ConfirmPaymentResponse {
+  // Платёж
+  Payment payment = 1;
+}
+
+// Запрос отмены платежа
+message CancelPaymentRequest {
+  // UUID платежа
+  string id = 1;
+  // Причина отмены
+  string reason = 2;
+}
+
+// Ответ отменённого платежа
+message CancelPaymentResponse {
+  // Платёж
+  Payment payment = 1;
+}
+
+// Запрос возврата средств
+message RefundPaymentRequest {
+  // UUID платежа
+  string id = 1;
+  // Сумма возврата в копейках (если частичный)
+  int64 amount = 2;
+  // Причина возврата
+  string reason = 3;
+}
+
+// Ответ возврата средств
+message RefundPaymentResponse {
+  // Платёж
+  Payment payment = 1;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сущность Payment
+// ─────────────────────────────────────────────────────────────────────────────
+message Payment {
+  // UUID платежа
+  string id = 1;
+  // ID заказа
+  string order_id = 2;
+  // Сумма в копейках
+  int64 amount = 3;
+  // Статус платежа
+  string status = 4;
+  // Способ оплаты
+  string payment_method = 5;
+  // ID транзакции от шлюза
+  string transaction_id = 6;
+  // Ключ идемпотентности
+  string idempotency_key = 7;
+  // Дополнительные данные (JSON)
+  string metadata = 8;
+  // Время создания
+  string created_at = 9;
+  // Время обновления
+  string updated_at = 10;
+}

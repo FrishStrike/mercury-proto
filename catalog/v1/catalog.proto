@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/FrishStrike/mercury-proto/gen/go/catalog/v1";
+
+import "common/v1/common.proto";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сервис Catalog
+// ─────────────────────────────────────────────────────────────────────────────
+service CatalogService {
+  // Получить список товаров
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  // Получить товар по ID
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  // Создать новый товар
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  // Обновить товар
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  // Удалить товар
+  rpc DeleteProduct(DeleteProductRequest) returns (common.v1.Empty);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сообщения
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Запрос списка товаров
+message ListProductsRequest {
+  // Номер страницы
+  int32 page = 1;
+  // Размер страницы
+  int32 page_size = 2;
+  // Фильтр по категории
+  string category = 3;
+  // Только активные товары
+  bool only_active = 4;
+}
+
+// Ответ списка товаров
+message ListProductsResponse {
+  // Список товаров
+  repeated Product products = 1;
+  // Информация о пагинации
+  common.v1.Pagination pagination = 2;
+}
+
+// Запрос товара по ID
+message GetProductRequest {
+  // UUID товара
+  string id = 1;
+}
+
+// Ответ с товаром
+message GetProductResponse {
+  // Товар
+  Product product = 1;
+}
+
+// Запрос создания товара
+message CreateProductRequest {
+  // Название
+  string name = 1;
+  // Описание
+  string description = 2;
+  // Цена в копейках
+  int64 price = 3;
+  // Остаток на складе
+  int32 stock = 4;
+  // Категория
+  string category = 5;
+}
+
+// Ответ созданного товара
+message CreateProductResponse {
+  // Товар
+  Product product = 1;
+}
+
+// Запрос обновления товара
+message UpdateProductRequest {
+  // UUID товара
+  string id = 1;
+  // Название (опционально)
+  string name = 2;
+  // Описание (опционально)
+  string description = 3;
+  // Цена в копейках (опционально)
+  int64 price = 4;
+  // Остаток на складе (опционально)
+  int32 stock = 5;
+  // Категория (опционально)
+  string category = 6;
+  // Активен ли товар (опционально)
+  bool is_active = 7;
+}
+
+// Ответ обновлённого товара
+message UpdateProductResponse {
+  // Товар
+  Product product = 1;
+}
+
+// Запрос удаления товара
+message DeleteProductRequest {
+  // UUID товара
+  string id = 1;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сущность Product
+// ─────────────────────────────────────────────────────────────────────────────
+message Product {
+  // UUID товара
+  string id = 1;
+  // Название
+  string name = 2;
+  // Описание
+  string description = 3;
+  // Цена в копейках
+  int64 price = 4;
+  // Остаток на складе
+  int32 stock = 5;
+  // Категория
+  string category = 6;
+  // Активен ли товар
+  bool is_active = 7;
+  // Время создания
+  string created_at = 8;
+  // Время обновления
+  string updated_at = 9;
+}

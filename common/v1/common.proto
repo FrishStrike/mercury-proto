@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package common.v1;
+
+option go_package = "github.com/FrishStrike/mercury-proto/gen/go/common/v1";
+
+// Пагинация для списков
+message Pagination {
+  // Номер страницы (начиная с 1)
+  int32 page = 1;
+  // Количество элементов на странице
+  int32 page_size = 2;
+  // Общее количество элементов
+  int32 total_count = 3;
+}
+
+// Стандартный ответ с ошибкой
+message Error {
+  // Код ошибки
+  string code = 1;
+  // Сообщение об ошибке
+  string message = 2;
+  // Дополнительные детали
+  map<string, string> details = 3;
+}
+
+// Пустой ответ для методов без возвращаемого значения
+message Empty {}

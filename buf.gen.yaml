@@ -1,0 +1,17 @@
+version: v1
+plugins:
+  # Go код для gRPC
+  - plugin: go
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - plugin: go-grpc
+    out: gen/go
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  # OpenAPI документация (для REST Gateway)
+  - plugin: openapiv2
+    out: gen/openapi
+    opt:
+      - logtostderr=true

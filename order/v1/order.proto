@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package order.v1;
+
+option go_package = "github.com/FrishStrike/mercury-proto/gen/go/order/v1";
+
+import "common/v1/common.proto";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сервис Order
+// ─────────────────────────────────────────────────────────────────────────────
+service OrderService {
+  // Получить список заказов
+  rpc ListOrders(ListOrdersRequest) returns (ListOrdersResponse);
+  // Получить заказ по ID
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+  // Создать новый заказ
+  rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+  // Обновить статус заказа
+  rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+  // Отменить заказ
+  rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сообщения
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Запрос списка заказов
+message ListOrdersRequest {
+  // Номер страницы
+  int32 page = 1;
+  // Размер страницы
+  int32 page_size = 2;
+  // ID пользователя (фильтр)
+  string user_id = 3;
+  // Статус заказа (фильтр)
+  string status = 4;
+}
+
+// Ответ списка заказов
+message ListOrdersResponse {
+  // Список заказов
+  repeated Order orders = 1;
+  // Информация о пагинации
+  common.v1.Pagination pagination = 2;
+}
+
+// Запрос заказа по ID
+message GetOrderRequest {
+  // UUID заказа
+  string id = 1;
+}
+
+// Ответ с заказом
+message GetOrderResponse {
+  // Заказ
+  Order order = 1;
+}
+
+// Запрос создания заказа
+message CreateOrderRequest {
+  // ID пользователя
+  string user_id = 1;
+  // Позиции заказа
+  repeated OrderItemInput items = 2;
+  // Адрес доставки
+  string shipping_address = 3;
+}
+
+// Ответ созданного заказа
+message CreateOrderResponse {
+  // Заказ
+  Order order = 1;
+}
+
+// Запрос обновления статуса
+message UpdateOrderStatusRequest {
+  // UUID заказа
+  string id = 1;
+  // Новый статус
+  string status = 2;
+}
+
+// Ответ обновлённого статуса
+message UpdateOrderStatusResponse {
+  // Заказ
+  Order order = 1;
+}
+
+// Запрос отмены заказа
+message CancelOrderRequest {
+  // UUID заказа
+  string id = 1;
+  // Причина отмены
+  string reason = 2;
+}
+
+// Ответ отменённого заказа
+message CancelOrderResponse {
+  // Заказ
+  Order order = 1;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сущность Order
+// ─────────────────────────────────────────────────────────────────────────────
+message Order {
+  // UUID заказа
+  string id = 1;
+  // ID пользователя
+  string user_id = 2;
+  // Статус заказа
+  string status = 3;
+  // Общая сумма в копейках
+  int64 total_amount = 4;
+  // Статус оплаты
+  string payment_status = 5;
+  // Адрес доставки
+  string shipping_address = 6;
+  // Позиции заказа
+  repeated OrderItem items = 7;
+  // Время создания
+  string created_at = 8;
+  // Время обновления
+  string updated_at = 9;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Сущность OrderItem
+// ─────────────────────────────────────────────────────────────────────────────
+message OrderItem {
+  // UUID позиции
+  string id = 1;
+  // ID товара
+  string product_id = 2;
+  // Название товара (снимок)
+  string product_name = 3;
+  // Количество
+  int32 quantity = 4;
+  // Цена в копейках (снимок)
+  int64 price = 5;
+  // Сумма в копейках
+  int64 total = 6;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Ввод позиции заказа (для создания)
+// ─────────────────────────────────────────────────────────────────────────────
+message OrderItemInput {
+  // ID товара
+  string product_id = 1;
+  // Количество
+  int32 quantity = 2;
+}
