@@ -5,106 +5,150 @@ package catalog.v1;
 option go_package = "github.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1";
 
 import "common/v1/common.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Сервис Catalog
 // ─────────────────────────────────────────────────────────────────────────────
 service CatalogService {
   // Получить список товаров
-  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
+  // REST: GET /api/v1/products
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/products"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "List products"
+      description: "Get a paginated list of products"
+      tags: ["Products"]
+    };
+  }
+
   // Получить товар по ID
-  rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  // REST: GET /api/v1/products/{id}
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/products/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get product"
+      description: "Get a product by ID"
+      tags: ["Products"]
+    };
+  }
+
   // Создать новый товар
-  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  // REST: POST /api/v1/products
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/products"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Create product"
+      description: "Create a new product"
+      tags: ["Products"]
+    };
+  }
+
   // Обновить товар
-  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  // REST: PUT /api/v1/products/{id}
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse) {
+    option (google.api.http) = {
+      put: "/api/v1/products/{id}"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Update product"
+      description: "Update an existing product"
+      tags: ["Products"]
+    };
+  }
+
   // Удалить товар
-  rpc DeleteProduct(DeleteProductRequest) returns (common.v1.Empty);
+  // REST: DELETE /api/v1/products/{id}
+  rpc DeleteProduct(DeleteProductRequest) returns (common.v1.Empty) {
+    option (google.api.http) = {
+      delete: "/api/v1/products/{id}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Delete product"
+      description: "Delete a product by ID"
+      tags: ["Products"]
+    };
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Сообщения
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Запрос списка товаров
 message ListProductsRequest {
-  // Номер страницы
+  // Номер страницы (для REST: query param ?page=1)
   int32 page = 1;
-  // Размер страницы
+  // Размер страницы (для REST: query param ?page_size=10)
   int32 page_size = 2;
-  // Фильтр по категории
+  // Фильтр по категории (для REST: query param ?category=Electronics)
   string category = 3;
   // Только активные товары
   bool only_active = 4;
 }
 
-// Ответ списка товаров
 message ListProductsResponse {
-  // Список товаров
   repeated Product products = 1;
-  // Информация о пагинации
   common.v1.Pagination pagination = 2;
 }
 
-// Запрос товара по ID
 message GetProductRequest {
-  // UUID товара
-  string id = 1;
+  // ID товара в path: /api/v1/products/{id}
+  string id = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Product UUID"
+    pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+  }];
 }
 
-// Ответ с товаром
 message GetProductResponse {
-  // Товар
   Product product = 1;
 }
 
-// Запрос создания товара
 message CreateProductRequest {
-  // Название
-  string name = 1;
-  // Описание
+  string name = 1 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Product name"
+    min_length: 1
+    max_length: 255
+  }];
   string description = 2;
-  // Цена в копейках
-  int64 price = 3;
-  // Остаток на складе
-  int32 stock = 4;
-  // Категория
+  int64 price = 3 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Price in cents"
+    minimum: 0
+  }];
+  int32 stock = 4 [(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description: "Stock quantity"
+    minimum: 0
+  }];
   string category = 5;
 }
 
-// Ответ созданного товара
 message CreateProductResponse {
-  // Товар
   Product product = 1;
 }
 
-// Запрос обновления товара
 message UpdateProductRequest {
-  // UUID товара
   string id = 1;
-  // Название (опционально)
   string name = 2;
-  // Описание (опционально)
   string description = 3;
-  // Цена в копейках (опционально)
   int64 price = 4;
-  // Остаток на складе (опционально)
   int32 stock = 5;
-  // Категория (опционально)
   string category = 6;
-  // Активен ли товар (опционально)
   bool is_active = 7;
 }
 
-// Ответ обновлённого товара
 message UpdateProductResponse {
-  // Товар
   Product product = 1;
 }
 
-// Запрос удаления товара
 message DeleteProductRequest {
-  // UUID товара
   string id = 1;
 }
 
@@ -112,22 +156,13 @@ message DeleteProductRequest {
 // Сущность Product
 // ─────────────────────────────────────────────────────────────────────────────
 message Product {
-  // UUID товара
   string id = 1;
-  // Название
   string name = 2;
-  // Описание
   string description = 3;
-  // Цена в копейках
   int64 price = 4;
-  // Остаток на складе
   int32 stock = 5;
-  // Категория
   string category = 6;
-  // Активен ли товар
   bool is_active = 7;
-  // Время создания
   string created_at = 8;
-  // Время обновления
   string updated_at = 9;
 }

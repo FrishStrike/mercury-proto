@@ -1,21 +1,32 @@
 version: v1
 plugins:
-  # Go код для gRPC
+  # Go код для сообщений
   - plugin: go
     out: gen/go
     opt:
       - paths=source_relative
-      # Маппинг proto импортов → Go пакеты
       - Mcommon/v1/common.proto=github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1
+
+  # Go код для gRPC
   - plugin: go-grpc
     out: gen/go
     opt:
       - paths=source_relative
       - require_unimplemented_servers=false
-      # Тот же маппинг для gRPC плагина
       - Mcommon/v1/common.proto=github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1
-  # OpenAPI документация (для REST Gateway)
+
+  # HTTP handlers для grpc-gateway
+  - plugin: grpc-gateway
+    out: gen/go
+    opt:
+      - paths=source_relative
+      - Mcommon/v1/common.proto=github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1
+
+
+  # OpenAPI спецификация для Swagger
   - plugin: openapiv2
     out: gen/openapi
     opt:
       - logtostderr=true
+      - allow_merge=true
+      - merge_file_name=mercury

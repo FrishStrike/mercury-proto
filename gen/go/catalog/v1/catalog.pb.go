@@ -8,6 +8,8 @@ package v1
 
 import (
 	v1 "github.com/frishstrike/mercury-backend/api/proto/gen/go/common/v1"
+	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -22,14 +24,13 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Запрос списка товаров
 type ListProductsRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Номер страницы
+	// Номер страницы (для REST: query param ?page=1)
 	Page int32 `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
-	// Размер страницы
+	// Размер страницы (для REST: query param ?page_size=10)
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	// Фильтр по категории
+	// Фильтр по категории (для REST: query param ?category=Electronics)
 	Category string `protobuf:"bytes,3,opt,name=category,proto3" json:"category,omitempty"`
 	// Только активные товары
 	OnlyActive    bool `protobuf:"varint,4,opt,name=only_active,json=onlyActive,proto3" json:"only_active,omitempty"`
@@ -95,13 +96,10 @@ func (x *ListProductsRequest) GetOnlyActive() bool {
 	return false
 }
 
-// Ответ списка товаров
 type ListProductsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Список товаров
-	Products []*Product `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
-	// Информация о пагинации
-	Pagination    *v1.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Products      []*Product             `protobuf:"bytes,1,rep,name=products,proto3" json:"products,omitempty"`
+	Pagination    *v1.Pagination         `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -150,10 +148,9 @@ func (x *ListProductsResponse) GetPagination() *v1.Pagination {
 	return nil
 }
 
-// Запрос товара по ID
 type GetProductRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// UUID товара
+	// ID товара в path: /api/v1/products/{id}
 	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -196,11 +193,9 @@ func (x *GetProductRequest) GetId() string {
 	return ""
 }
 
-// Ответ с товаром
 type GetProductResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Товар
-	Product       *Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Product       *Product               `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -242,19 +237,13 @@ func (x *GetProductResponse) GetProduct() *Product {
 	return nil
 }
 
-// Запрос создания товара
 type CreateProductRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Название
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Описание
-	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	// Цена в копейках
-	Price int64 `protobuf:"varint,3,opt,name=price,proto3" json:"price,omitempty"`
-	// Остаток на складе
-	Stock int32 `protobuf:"varint,4,opt,name=stock,proto3" json:"stock,omitempty"`
-	// Категория
-	Category      string `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Price         int64                  `protobuf:"varint,3,opt,name=price,proto3" json:"price,omitempty"`
+	Stock         int32                  `protobuf:"varint,4,opt,name=stock,proto3" json:"stock,omitempty"`
+	Category      string                 `protobuf:"bytes,5,opt,name=category,proto3" json:"category,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -324,11 +313,9 @@ func (x *CreateProductRequest) GetCategory() string {
 	return ""
 }
 
-// Ответ созданного товара
 type CreateProductResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Товар
-	Product       *Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Product       *Product               `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -370,23 +357,15 @@ func (x *CreateProductResponse) GetProduct() *Product {
 	return nil
 }
 
-// Запрос обновления товара
 type UpdateProductRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// UUID товара
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Название (опционально)
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// Описание (опционально)
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	// Цена в копейках (опционально)
-	Price int64 `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
-	// Остаток на складе (опционально)
-	Stock int32 `protobuf:"varint,5,opt,name=stock,proto3" json:"stock,omitempty"`
-	// Категория (опционально)
-	Category string `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
-	// Активен ли товар (опционально)
-	IsActive      bool `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Price         int64                  `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
+	Stock         int32                  `protobuf:"varint,5,opt,name=stock,proto3" json:"stock,omitempty"`
+	Category      string                 `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
+	IsActive      bool                   `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -470,11 +449,9 @@ func (x *UpdateProductRequest) GetIsActive() bool {
 	return false
 }
 
-// Ответ обновлённого товара
 type UpdateProductResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Товар
-	Product       *Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Product       *Product               `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -516,11 +493,9 @@ func (x *UpdateProductResponse) GetProduct() *Product {
 	return nil
 }
 
-// Запрос удаления товара
 type DeleteProductRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// UUID товара
-	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -566,25 +541,16 @@ func (x *DeleteProductRequest) GetId() string {
 // Сущность Product
 // ─────────────────────────────────────────────────────────────────────────────
 type Product struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// UUID товара
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Название
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// Описание
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	// Цена в копейках
-	Price int64 `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
-	// Остаток на складе
-	Stock int32 `protobuf:"varint,5,opt,name=stock,proto3" json:"stock,omitempty"`
-	// Категория
-	Category string `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
-	// Активен ли товар
-	IsActive bool `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
-	// Время создания
-	CreatedAt string `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	// Время обновления
-	UpdatedAt     string `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Price         int64                  `protobuf:"varint,4,opt,name=price,proto3" json:"price,omitempty"`
+	Stock         int32                  `protobuf:"varint,5,opt,name=stock,proto3" json:"stock,omitempty"`
+	Category      string                 `protobuf:"bytes,6,opt,name=category,proto3" json:"category,omitempty"`
+	IsActive      bool                   `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     string                 `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -687,7 +653,7 @@ var File_catalog_v1_catalog_proto protoreflect.FileDescriptor
 const file_catalog_v1_catalog_proto_rawDesc = "" +
 	"\n" +
 	"\x18catalog/v1/catalog.proto\x12\n" +
-	"catalog.v1\x1a\x16common/v1/common.proto\"\x83\x01\n" +
+	"catalog.v1\x1a\x16common/v1/common.proto\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\x83\x01\n" +
 	"\x13ListProductsRequest\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x1a\n" +
@@ -698,16 +664,16 @@ const file_catalog_v1_catalog_proto_rawDesc = "" +
 	"\bproducts\x18\x01 \x03(\v2\x13.catalog.v1.ProductR\bproducts\x125\n" +
 	"\n" +
 	"pagination\x18\x02 \x01(\v2\x15.common.v1.PaginationR\n" +
-	"pagination\"#\n" +
-	"\x11GetProductRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"C\n" +
+	"pagination\"w\n" +
+	"\x11GetProductRequest\x12b\n" +
+	"\x02id\x18\x01 \x01(\tBR\x92AO2\fProduct UUID\x8a\x01>^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$R\x02id\"C\n" +
 	"\x12GetProductResponse\x12-\n" +
-	"\aproduct\x18\x01 \x01(\v2\x13.catalog.v1.ProductR\aproduct\"\x94\x01\n" +
-	"\x14CreateProductRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05price\x18\x03 \x01(\x03R\x05price\x12\x14\n" +
-	"\x05stock\x18\x04 \x01(\x05R\x05stock\x12\x1a\n" +
+	"\aproduct\x18\x01 \x01(\v2\x13.catalog.v1.ProductR\aproduct\"\xd7\x01\n" +
+	"\x14CreateProductRequest\x12+\n" +
+	"\x04name\x18\x01 \x01(\tB\x17\x92A\x142\fProduct namex\xff\x01\x80\x01\x01R\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12)\n" +
+	"\x05price\x18\x03 \x01(\x03B\x13\x92A\x102\x0ePrice in centsR\x05price\x12)\n" +
+	"\x05stock\x18\x04 \x01(\x05B\x13\x92A\x102\x0eStock quantityR\x05stock\x12\x1a\n" +
 	"\bcategory\x18\x05 \x01(\tR\bcategory\"F\n" +
 	"\x15CreateProductResponse\x12-\n" +
 	"\aproduct\x18\x01 \x01(\v2\x13.catalog.v1.ProductR\aproduct\"\xc1\x01\n" +
@@ -734,14 +700,19 @@ const file_catalog_v1_catalog_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\b \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
-	"updated_at\x18\t \x01(\tR\tupdatedAt2\xa1\x03\n" +
-	"\x0eCatalogService\x12Q\n" +
-	"\fListProducts\x12\x1f.catalog.v1.ListProductsRequest\x1a .catalog.v1.ListProductsResponse\x12K\n" +
+	"updated_at\x18\t \x01(\tR\tupdatedAt2\xcb\x06\n" +
+	"\x0eCatalogService\x12\xa9\x01\n" +
+	"\fListProducts\x12\x1f.catalog.v1.ListProductsRequest\x1a .catalog.v1.ListProductsResponse\"V\x92A;\n" +
+	"\bProducts\x12\rList products\x1a Get a paginated list of products\x82\xd3\xe4\x93\x02\x12\x12\x10/api/v1/products\x12\x99\x01\n" +
 	"\n" +
-	"GetProduct\x12\x1d.catalog.v1.GetProductRequest\x1a\x1e.catalog.v1.GetProductResponse\x12T\n" +
-	"\rCreateProduct\x12 .catalog.v1.CreateProductRequest\x1a!.catalog.v1.CreateProductResponse\x12T\n" +
-	"\rUpdateProduct\x12 .catalog.v1.UpdateProductRequest\x1a!.catalog.v1.UpdateProductResponse\x12C\n" +
-	"\rDeleteProduct\x12 .catalog.v1.DeleteProductRequest\x1a\x10.common.v1.EmptyBDZBgithub.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
+	"GetProduct\x12\x1d.catalog.v1.GetProductRequest\x1a\x1e.catalog.v1.GetProductResponse\"L\x92A,\n" +
+	"\bProducts\x12\vGet product\x1a\x13Get a product by ID\x82\xd3\xe4\x93\x02\x17\x12\x15/api/v1/products/{id}\x12\xa4\x01\n" +
+	"\rCreateProduct\x12 .catalog.v1.CreateProductRequest\x1a!.catalog.v1.CreateProductResponse\"N\x92A0\n" +
+	"\bProducts\x12\x0eCreate product\x1a\x14Create a new product\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/v1/products\x12\xaf\x01\n" +
+	"\rUpdateProduct\x12 .catalog.v1.UpdateProductRequest\x1a!.catalog.v1.UpdateProductResponse\"Y\x92A6\n" +
+	"\bProducts\x12\x0eUpdate product\x1a\x1aUpdate an existing product\x82\xd3\xe4\x93\x02\x1a:\x01*\x1a\x15/api/v1/products/{id}\x12\x97\x01\n" +
+	"\rDeleteProduct\x12 .catalog.v1.DeleteProductRequest\x1a\x10.common.v1.Empty\"R\x92A2\n" +
+	"\bProducts\x12\x0eDelete product\x1a\x16Delete a product by ID\x82\xd3\xe4\x93\x02\x17*\x15/api/v1/products/{id}BDZBgithub.com/frishstrike/mercury-backend/api/proto/gen/go/catalog/v1b\x06proto3"
 
 var (
 	file_catalog_v1_catalog_proto_rawDescOnce sync.Once

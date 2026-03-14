@@ -36,14 +36,19 @@ const (
 // ─────────────────────────────────────────────────────────────────────────────
 type CatalogServiceClient interface {
 	// Получить список товаров
+	// REST: GET /api/v1/products
 	ListProducts(ctx context.Context, in *ListProductsRequest, opts ...grpc.CallOption) (*ListProductsResponse, error)
 	// Получить товар по ID
+	// REST: GET /api/v1/products/{id}
 	GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*GetProductResponse, error)
 	// Создать новый товар
+	// REST: POST /api/v1/products
 	CreateProduct(ctx context.Context, in *CreateProductRequest, opts ...grpc.CallOption) (*CreateProductResponse, error)
 	// Обновить товар
+	// REST: PUT /api/v1/products/{id}
 	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
 	// Удалить товар
+	// REST: DELETE /api/v1/products/{id}
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*v1.Empty, error)
 }
 
@@ -114,14 +119,19 @@ func (c *catalogServiceClient) DeleteProduct(ctx context.Context, in *DeleteProd
 // ─────────────────────────────────────────────────────────────────────────────
 type CatalogServiceServer interface {
 	// Получить список товаров
+	// REST: GET /api/v1/products
 	ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error)
 	// Получить товар по ID
+	// REST: GET /api/v1/products/{id}
 	GetProduct(context.Context, *GetProductRequest) (*GetProductResponse, error)
 	// Создать новый товар
+	// REST: POST /api/v1/products
 	CreateProduct(context.Context, *CreateProductRequest) (*CreateProductResponse, error)
 	// Обновить товар
+	// REST: PUT /api/v1/products/{id}
 	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
 	// Удалить товар
+	// REST: DELETE /api/v1/products/{id}
 	DeleteProduct(context.Context, *DeleteProductRequest) (*v1.Empty, error)
 }
 
